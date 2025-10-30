@@ -8,5 +8,6 @@
 <body>
     <h1>Sveiki, ko vēlies spēlēt!</h1>
     <p><a href="{{ url('/play') }}">Sākt atmiņas kartīšu spēli</a></p>
+    <p><a href="{{ url('/typing-game') }}">ll</a></p>
 </body>
 </html

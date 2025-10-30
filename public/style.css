@@ -13,7 +13,7 @@
     margin: 0;
   }
   
-  .container {
+  #container {
     text-align: center;
     max-width: 600px;
     margin: 0 auto;
@@ -24,13 +24,13 @@
     color: #333;
   }
   
-  .game-info {
+  #game-info {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
   }
   
-  .timer, .score-board {
+  .timer, #score-board {
     font-size: 1em;
     color: #555;
   }
@@ -161,4 +161,9 @@
   
   button:hover {
     background-color: #b06066;
+  }
+  .word {
+    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+    padding: 2px 4px;
+    border-radius: 4px;
   }

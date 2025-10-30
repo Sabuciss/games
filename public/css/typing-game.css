@@ -1,0 +1,191 @@
+/* --- GALVENAIS CONTAINER --- */
+body{
+    background-color: #dcfae7;
+}
+#game-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #b6ebca;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
+}
+
+/* --- HEADING --- */
+#game-container h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+#game-container p {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+/* --- SETTINGS --- */
+#settings {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+#settings label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+}
+
+#settings select,
+#settings input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+#settings button {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  background: #4f46e5;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#settings button:hover {
+  background: #4338ca;
+}
+
+/* --- GAME AREA --- */
+#gameArea {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+  margin-bottom: 1.5rem;
+}
+
+#textDisplay {
+  min-height: 150px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* --- WORDS (JS dinamiski pievieno klases) --- */
+#textDisplay .word {
+  padding: 2px 5px;
+  border-radius: 4px;
+  transition: all 0.1s ease;
+}
+
+#textDisplay .word.underline {
+  text-decoration: underline;
+}
+
+/* real-time feedback */
+#textDisplay .bg-green-50,
+#textDisplay .bg-green-100 {
+  background-color: #bbf7d0; /* light green */
+  color: #14532d;
+}
+
+#textDisplay .bg-red-200 {
+  background-color: #fecaca; /* red */
+  color: #7f1d1d;
+}
+
+/* --- INPUT --- */
+#typingInput {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+#typingInput:focus {
+  border-color: #4f46e5;
+  outline: none;
+}
+
+/* --- STATS --- */
+#stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+/* --- ACTION BUTTONS --- */
+#actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+#submitBtn {
+  background: #22c55e;
+  color: white;
+  border-radius: 6px;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+#resetBtn {
+  background: #e5e7eb;
+  color: #444;
+  border-radius: 6px;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#actions button:hover:not(:disabled) {
+  transform: scale(1.05);
+  transition: 0.2s ease;
+}
+
+/* --- LEADERBOARD --- */
+#leaderboard-section {
+  margin-top: 1.5rem;
+}
+
+#leaderboard-section h2 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+#leaderboard ol {
+  padding-left: 1.5rem;
+}
+
+#leaderboard li {
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 600px) {
+  #settings {
+    flex-direction: column;
+  }
+}
