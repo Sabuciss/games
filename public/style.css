@@ -1,169 +1,123 @@
-/* card game css */
 * {
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #ad7575;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
-  
-  #container {
-    text-align: center;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  h1 {
-    font-size: 3em;
-    color: #333;
-  }
-  
-  #game-info {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-  .timer, #score-board {
-    font-size: 1em;
-    color: #555;
-  }
-  
-  .game-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 70px);
-    grid-template-rows: repeat(4, 70px);
-    gap: 10px;
-    justify-content: center;
-  }
-  
-  .card {
-    width: 70px;
-    height: 70px;
-    background-color: #e0e0e0;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2em;
-    color: #d49c9c;
-    cursor: pointer;
-    position: relative;
-  }
-  
-  .card img {
-    display: none;
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-  }
-  
-  .card.flipped img {
-    display: block;
-  }
-  
-  button {
-    font-size: 1em;
-    padding: 10px 20px;
-    background-color: #6d1b1b;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #b06066;
-  }* {
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #ad7575;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
-  
-  .container {
-    text-align: center;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  h1 {
-    font-size: 3em;
-    color: #333;
-  }
-  
-  .game-info {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-  .timer, .score-board {
-    font-size: 1em;
-    color: #555;
-  }
-  
-  .game-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 70px);
-    grid-template-rows: repeat(4, 70px);
-    gap: 10px;
-    justify-content: center;
-  }
-  
-  .card {
-    width: 70px;
-    height: 70px;
-    background-color: #e0e0e0;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2em;
-    color: #d49c9c;
-    cursor: pointer;
-    position: relative;
-  }
-  
-  .card img {
-    display: none;
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-  }
-  
-  .card.flipped img {
-    display: block;
-  }
-  
-  button {
-    font-size: 1em;
-    padding: 10px 20px;
-    background-color: #6d1b1b;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #b06066;
-  }
-  .word {
-    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
-    padding: 2px 4px;
-    border-radius: 4px;
-  }
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #ad7575;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.container {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 3em;
+  color: #333;
+}
+
+.level-selection button {
+  margin: 5px;
+  padding: 10px 15px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.game-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.timer, .score-board {
+  font-size: 1em;
+  color: #555;
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 70px);
+  grid-template-rows: repeat(var(--rows), 70px);
+  gap: 10px;
+  justify-content: center;
+}
+
+.card {
+  width: 70px;
+  height: 70px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  color: #d49c9c;
+  cursor: pointer;
+  position: relative;
+}
+
+.card img {
+  display: none;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.card.flipped img {
+  display: block;
+}
+
+button {
+  font-size: 1em;
+  padding: 10px 20px;
+  background-color: #6d1b1b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #b06066;
+}
+
+#leaderboard table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+#leaderboard th, #leaderboard td {
+  border: 1px solid #ddd;
+  padding: 5px 10px;
+  text-align: center;
+}
+
+#leaderboard tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+header nav {
+  background-color: #6d1b1b;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+header nav a {
+  color: white;
+  text-decoration: none;
+  margin-right: 15px;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
