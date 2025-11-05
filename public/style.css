@@ -121,3 +121,37 @@ header nav a {
   font-size: 1.2em;
 }
 
+/* card css */
+
+.cards-wrapper {
+  display: flex;
+  gap: 20px; /* atstarpe starp kartītēm */
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap; /* kartītes nāk jaunā rindā, ja nepietiek vietas */
+  background-color: #f3e6e6; /* silta fona krāsa kartītēm */
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 900px;
+  margin: 20px auto;
+}
+.card {
+  flex: 0 0 200px; /* katra kartīte aizņem apmēram 200px platumā */
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-bottom: 1px solid #ddd;
+}
+.card .container {
+  padding: 15px;
+}
