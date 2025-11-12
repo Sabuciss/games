@@ -1,46 +1,93 @@
+/* ==========================
+   Universālie iestatījumi
+========================== */
 * {
   box-sizing: border-box;
 }
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #ad7575;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  background-color: #c27b6f; /* Vienmērīga fona krāsa visiem ekrāniem */
   margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
+/* ==========================
+   Satura konteiners
+========================== */
 .container {
   text-align: center;
-  max-width: 600px;
-  margin: 0 auto;
+  max-width: 900px;
+  margin: 40px auto 0 auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 h1 {
-  font-size: 3em;
+  font-size: 2.5em;
   color: #333;
+  margin-bottom: 30px;
 }
 
-.level-selection button {
-  margin: 5px;
-  padding: 10px 15px;
-  font-size: 1em;
-  cursor: pointer;
-}
-
-.game-info {
+/* ==========================
+   Sākuma kartītes spēļu izvēlei
+========================== */
+.cards-wrapper {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
+  gap: 40px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  flex-direction: row;
+  background-color: #f3e6e6;
+  padding: 40px 10px;
+  border-radius: 10px;
+  margin: 30px auto;
+  transition: background 0.3s ease;
 }
 
-.timer, .score-board {
-  font-size: 1em;
-  color: #555;
+.card {
+  width: 230px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
+.card:hover {
+  transform: translateY(-7px) scale(1.04);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+}
+
+.card img {
+  width: 100%;
+  height: 125px;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.card .container {
+  padding: 15px 10px;
+}
+
+.card h4 {
+  margin: 0 0 10px 0;
+  color: #6d1b1b;
+}
+
+/* ==========================
+   Spēles laukums un animācija
+========================== */
 .game-grid {
   display: grid;
   grid-template-columns: repeat(var(--cols), 70px);
@@ -49,7 +96,7 @@ h1 {
   justify-content: center;
 }
 
-.card {
+.card-game {
   width: 70px;
   height: 70px;
   background-color: #e0e0e0;
@@ -61,97 +108,178 @@ h1 {
   color: #d49c9c;
   cursor: pointer;
   position: relative;
+  transition: transform 0.3s ease, background 0.3s ease;
 }
 
-.card img {
+.card-game:hover {
+  transform: scale(1.1);
+  background-color: #f1d6d6;
+}
+
+.card-game img {
   display: none;
   width: 100%;
   height: 100%;
   border-radius: 10px;
 }
 
-.card.flipped img {
+.card-game.flipped img {
   display: block;
 }
 
-button {
+/* ==========================
+   Pogas
+========================== */
+button, .btn, .btn-leaderboard {
   font-size: 1em;
-  padding: 10px 20px;
+  padding: 10px 24px;
   background-color: #6d1b1b;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   margin-top: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+  transition: background 0.2s;
 }
 
-button:hover {
+button:hover, .btn:hover, .btn-leaderboard:hover {
   background-color: #b06066;
 }
 
-#leaderboard table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 15px;
+.level-selection button {
+  margin: 5px;
 }
 
-#leaderboard th, #leaderboard td {
+/* ==========================
+   Leaderboard tabulas stils
+========================== */
+#leaderboard, .leaderboard {
+  margin-top: 25px;
+}
+
+#leaderboard table, .leaderboard table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+#leaderboard th, #leaderboard td,
+.leaderboard th, .leaderboard td {
   border: 1px solid #ddd;
-  padding: 5px 10px;
+  padding: 8px 10px;
   text-align: center;
 }
 
-#leaderboard tr:nth-child(odd) {
+#leaderboard th, .leaderboard th {
+  background-color: #6d1b1b;
+  color: white;
+}
+
+#leaderboard tr:nth-child(odd),
+.leaderboard tr:nth-child(odd) {
   background-color: #f9f9f9;
 }
 
-header nav {
-  background-color: #6d1b1b;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-header nav a {
-  color: white;
-  text-decoration: none;
-  margin-right: 15px;
-  font-weight: bold;
-  font-size: 1.2em;
-}
-
-/* card css */
-
-.cards-wrapper {
-  display: flex;
-  gap: 20px; /* atstarpe starp kartītēm */
-  justify-content: center;
-  align-items: flex-start;
-  flex-wrap: wrap; /* kartītes nāk jaunā rindā, ja nepietiek vietas */
-  background-color: #f3e6e6; /* silta fona krāsa kartītēm */
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 900px;
-  margin: 20px auto;
-}
-.card {
-  flex: 0 0 200px; /* katra kartīte aizņem apmēram 200px platumā */
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+.filters {
+  margin-top: 20px;
   text-align: center;
 }
-.card img {
-  width: 100%;
-  height: 120px;
-  object-fit: cover;
-  border-bottom: 1px solid #ddd;
+
+.filters select,
+.filters input {
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
-.card .container {
-  padding: 15px;
+
+/* ==========================
+   Responsīvais dizains
+========================== */
+
+/* Līdz 1000px - planšetes */
+@media (max-width: 1000px) {
+  .cards-wrapper {
+    flex-direction: column;
+    gap: 20px;
+    max-width: 500px;
+  }
+
+  .container {
+    padding: 12px;
+    max-width: 98vw;
+  }
+
+  h1 {
+    font-size: 2.2em;
+  }
+}
+
+/* Līdz 600px - mobilie */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2em;
+  }
+
+  .cards-wrapper {
+    gap: 10px;
+    padding: 12px 0 20px 0;
+  }
+
+  .card {
+    width: 95vw;
+    min-width: 220px;
+    margin: 0 auto;
+  }
+
+  .card img {
+    height: 90px;
+  }
+
+  #leaderboard table, .leaderboard table {
+    font-size: 14px;
+  }
+}
+
+/* Līdz 480px - ļoti mazi ekrāni */
+@media (max-width: 480px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  thead tr {
+    display: none;
+  }
+
+  tbody tr {
+    margin-bottom: 20px;
+  }
+
+  tbody td {
+    border: none;
+    position: relative;
+    padding-left: 50%;
+    text-align: left;
+    min-height: 32px;
+  }
+
+  tbody td::before {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    font-weight: bold;
+    color: #6d1b1b;
+    font-size: 14px;
+  }
+
+  tbody td:nth-of-type(1)::before { content: "Vieta"; }
+  tbody td:nth-of-type(2)::before { content: "Vārds"; }
+  tbody td:nth-of-type(3)::before { content: "Punkti"; }
+  tbody td:nth-of-type(4)::before { content: "Laiks"; }
 }
