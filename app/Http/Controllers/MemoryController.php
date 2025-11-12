@@ -51,7 +51,7 @@ class MemoryController extends Controller
                 ->get();
         }
 
-        return view('cards.cardleaderboard', compact('playerName','playerScore','selectedLevel','resultsByLevel'));
+        return view('cards.cardleaderboard', compact('playerName', 'playerScore', 'selectedLevel', 'resultsByLevel'));
     }
 
     public function logout(Request $request)

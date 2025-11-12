@@ -48,9 +48,9 @@
     </div>
 </div>
 
-  <div style="margin-top:20px;">
-        <a href="{{ url('/play') }}">
-  </div>
+ <div style="margin-top:20px;">
+    <a href="{{ url('/play') }}" class="btn btn-primary">Turpināt spēli / Izvēlēties līmeni</a>
+</div>
  
 <script src="script.js"></script>
 

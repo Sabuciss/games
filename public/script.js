@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Leaderboard filter ---
     const levelSelect = document.getElementById('levelSelect');
     const levels = document.querySelectorAll('.leaderboard-level');
-    if(levelSelect && levels.length > 0){
+    if (levelSelect && levels.length > 0) {
         levelSelect.addEventListener('change', () => {
             const sel = levelSelect.value;
             levels.forEach(l => {
@@ -24,24 +24,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const levelSelection = document.querySelector('.level-selection');
     const levelButtons = document.querySelectorAll('.level-selection button');
     const gameInfo = document.querySelector('.game-info');
+    const leaderboardContainer = document.getElementById('leaderboardContainer');
 
     let playerName = nicknameInput?.value || '';
     let score = 0, time = 0, flippedCards = [], matchedCards = [], timer;
     let rows = 0, cols = 0, selectedLevel = null;
 
-    const cardImages = ['img/1.jpg','img/2.png','img/3.png','img/4.png','img/5.jpg','img/6.jpg','img/7.jpg','img/8.jpg','img/9.png','img/10.png'];
+    const cardImages = ['img/1.jpg', 'img/2.png', 'img/3.png', 'img/4.png', 'img/5.jpg', 'img/6.jpg', 'img/7.jpg', 'img/8.jpg', 'img/9.png', 'img/10.png'];
     let cardArray = [];
 
-    function setupGrid(){
+    function setupGrid() {
         grid.style.setProperty('--cols', cols);
         grid.style.setProperty('--rows', rows);
     }
 
-    function shuffleCards(){
+    function shuffleCards() {
         cardArray.sort(() => 0.5 - Math.random());
     }
 
-    function createBoard(){
+    function createBoard() {
         const totalCards = rows * cols;
         const neededPairs = totalCards / 2;
         cardArray = [...cardImages.slice(0, neededPairs), ...cardImages.slice(0, neededPairs)];
@@ -59,18 +60,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function flipCard(){
+    function flipCard() {
         const selectedCard = this;
-        if(flippedCards.length < 2 && !selectedCard.classList.contains('flipped')){
+        if (flippedCards.length < 2 && !selectedCard.classList.contains('flipped')) {
             selectedCard.classList.add('flipped');
             flippedCards.push(selectedCard);
-            if(flippedCards.length === 2) setTimeout(checkMatch, 500);
+            if (flippedCards.length === 2) setTimeout(checkMatch, 500);
         }
     }
 
-    function checkMatch(){
+    function checkMatch() {
         const [c1, c2] = flippedCards;
-        if(c1.querySelector('img').src === c2.querySelector('img').src){
+        if (c1.querySelector('img').src === c2.querySelector('img').src) {
             matchedCards.push(c1, c2);
             score += 10 + Math.max(0, 20 - time);
         } else {
@@ -79,26 +80,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         flippedCards = [];
         scoreDisplay.textContent = score;
-        if(matchedCards.length===cardArray.length){
+        if (matchedCards.length === cardArray.length) {
             clearInterval(timer);
             saveHighScore();
-            alert(`Tu uzvarēji! Tavs rezultāts: ${score}`);
-            levelSelection.style.display='block';
-            gameInfo.style.display='none';
-            grid.style.display='none';
-            restartBtn.style.display='none';
+            alert(`Tu uzvarēji, ${playerName}! Tavs rezultāts: ${score} punkti.`);
+            levelSelection.style.display = 'block';
+            gameInfo.style.display = 'none';
+            grid.style.display = 'none';
+            restartBtn.style.display = 'none';
+            leaderboardContainer.style.display = 'block';
         }
     }
 
-    function startTimer(){
+    function startTimer() {
         timer = setInterval(() => {
             time++;
             let m = Math.floor(time / 60), s = time % 60;
-            timeDisplay.textContent = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
+            timeDisplay.textContent = `${m < 10 ? '0' + m : m}:${s < 10 ? '0' + s : s}`;
         }, 1000);
     }
 
-    function restartGame(){
+    function restartGame() {
         score = 0; time = 0; flippedCards = []; matchedCards = [];
         clearInterval(timer);
         scoreDisplay.textContent = score;
@@ -109,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     startBtn?.addEventListener('click', () => {
         const nickname = nicknameInput.value.trim();
-        if(!nickname){ alert('Lūdzu ievadi nickname!'); return; }
+        if (!nickname) { alert('Lūdzu ievadi nickname!'); return; }
         playerName = nickname;
         nicknameForm.style.display = 'none';
         levelSelection.style.display = 'block';
@@ -118,10 +120,10 @@ document.addEventListener('DOMContentLoaded', () => {
     levelButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             selectedLevel = btn.dataset.level;
-            switch(selectedLevel){
-                case 'easy': rows=2; cols=2; break;
-                case 'medium': rows=3; cols=4; break;
-                case 'hard': rows=4; cols=5; break;
+            switch (selectedLevel) {
+                case 'easy': rows = 2; cols = 2; break;
+                case 'medium': rows = 3; cols = 4; break;
+                case 'hard': rows = 4; cols = 5; break;
             }
             setupGrid();
             restartGame();
@@ -129,12 +131,18 @@ document.addEventListener('DOMContentLoaded', () => {
             gameInfo.style.display = 'flex';
             grid.style.display = 'grid';
             restartBtn.style.display = 'inline-block';
+            leaderboardContainer.style.display = 'none';
         });
     });
 
-    restartBtn.addEventListener('click', () => { if(!selectedLevel) return; setupGrid(); restartGame(); });
+    restartBtn.addEventListener('click', () => {
+        if (!selectedLevel) return;
+        setupGrid();
+        restartGame();
+        leaderboardContainer.style.display = 'none';
+    });
 
-    function saveHighScore(){
+    function saveHighScore() {
         fetch('/memory/submit-result', {
             method: 'POST',
             headers: {
@@ -149,12 +157,15 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         });
     }
-});
 
-
-document.getElementById('continueBtn').addEventListener('click', () => {
-    levelSelection.style.display='block';
-    grid.style.display='none';
-    gameInfo.style.display='none';
-    document.getElementById('leaderboardContainer').style.display='none';
+    // Optional: Button or trigger to continue playing after leaderboard display
+    const continueBtn = document.getElementById('continueBtn');
+    if (continueBtn) {
+        continueBtn.addEventListener('click', () => {
+            levelSelection.style.display = 'block';
+            grid.style.display = 'none';
+            gameInfo.style.display = 'none';
+            leaderboardContainer.style.display = 'none';
+        });
+    }
 });
