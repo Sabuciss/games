@@ -1,0 +1,18 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #ad7575;
+  
+  min-height: 100vh;
+  margin: 0;
+}
+h1 {
+  font-size: 1.2em;
+  color: #333;
+}
+button:hover {
+  background-color: #b06066;
+}
+img{
+    border: solid #333 5px;
+    border-radius: 10px;
+}

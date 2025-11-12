@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class TypingLeaderboard extends Model
 {
-    protected $table = 'typing_leaderboards';
+    use HasFactory;
 
     protected $fillable = [
         'nickname',
@@ -16,3 +17,4 @@ class TypingLeaderboard extends Model
         'accuracy',
     ];
 }
+

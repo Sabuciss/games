@@ -8,9 +8,18 @@
 
 </head>
 <body>
+<!-- 
+DB_CONNECTION=sqlite
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=database/database.sqlite
+DB_USERNAME=root
+DB_PASSWORD=
+ -->
+@include('components.navbar')
   <div id="game-container">
     <h1>Typing Game — Raksti ātrāk!</h1>
-    <p>Izvēlies līmeni, spied START un sāc rakstīt. Reāllaika atgriezeniskā saite par katru vārdu. WPM un leaderboard pieejams.</p>
+    <p>Izvēlies līmeni, spied START un sāc rakstīt.</p>
 
     <div id="settings">
       <div>

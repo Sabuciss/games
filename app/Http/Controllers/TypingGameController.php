@@ -12,13 +12,12 @@ class TypingGameController extends Controller
 
     public function __construct()
     {
-        // load text paragraphs from config (see config/typing_texts.php)
+        // Load text paragraphs from config (we’ll create it in a moment)
         $this->texts = config('typing_texts.paragraphs', []);
     }
 
     public function index(Request $request)
     {
-        // difficulty options -> approximate word counts will be handled in JS
         $levels = [
             'easy' => 50,
             'medium' => 100,
@@ -46,7 +45,7 @@ class TypingGameController extends Controller
             'nickname' => $data['nickname'],
             'level' => $data['level'],
             'wpm' => round($data['wpm'], 2),
-            'time_seconds' => (int)$data['time_seconds'],
+            'time_seconds' => (int) $data['time_seconds'],
             'accuracy' => round($data['accuracy'], 2),
         ]);
 
@@ -56,11 +55,12 @@ class TypingGameController extends Controller
     public function leaderboard($level)
     {
         $level = Str::lower($level);
-        if (!in_array($level, ['easy','medium','hard','hardcore'])) {
+        if (!in_array($level, ['easy', 'medium', 'hard', 'hardcore'])) {
             abort(404);
         }
 
         $top = TypingLeaderboard::where('level', $level)
+            ->orderByDesc('accuracy')
             ->orderByDesc('wpm')
             ->orderBy('time_seconds')
             ->limit(50)

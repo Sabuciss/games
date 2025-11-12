@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Laipni lūdzam šaja lapā</title>
-    
+    <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
 </head>
 <body>
     
 
-    <h1>Sveiki, ko vēlies spēlēt!</h1>
-
+<h1>Sveiki, ko vēlies spēlēt!</h1>
 <div class="cards-wrapper">
     <div class="card">
         <img src="img/cards.png" alt="game" >
