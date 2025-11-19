@@ -155,14 +155,7 @@ DB_PASSWORD=
       return `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
     }
 
-    function updateWpmAndAccuracy(elapsedSeconds) {
-      const minutes = Math.max( (elapsedSeconds)/60 , 1/60 ); // avoid div by zero
-      const correctWords = Math.max(0, currentIndex); // words completed correctly
-      const wpm = Math.round(correctWords / minutes);
-      wpmEl.textContent = isFinite(wpm) ? wpm : 0;
-      const accuracy = typedCharsTotal === 0 ? 100 : Math.max(0, ((typedCharsTotal - mistakes)/typedCharsTotal) * 100);
-      accuracyEl.textContent = `${Math.round(accuracy)}%`;
-    }
+
 
     // Real-time checking per word on space or enter or when user ends a word
     typingInput.addEventListener('keydown', (e) => {
@@ -177,79 +170,93 @@ DB_PASSWORD=
       }
     });
 
-    typingInput.addEventListener('input', (e) => {
-  const val = typingInput.value.trim();
-  const target = words[currentIndex] || '';
-  const span = textDisplay.querySelector(`span[data-index="${currentIndex}"]`);
-  if (!span) return;
+    typingInput.addEventListener('input', () => {
+    const val = typingInput.value.trim();
+    const target = words[currentIndex] || '';
+    const span = document.querySelector(`span[data-index="${currentIndex}"]`);
+    if (!span) return;
 
-  // no krāsu stilu
-  span.classList.remove('bg-red-200', 'bg-green-200', 'bg-green-50');
-
-  if (val.length === 0) {
-    // neko vēl nav ievadījis
+    // Only remove live-preview colors
     span.classList.remove('bg-red-200', 'bg-green-200', 'bg-green-50');
-  } else if (target === val) {
-    // pilnīgi pareizi
-    span.classList.add('bg-green-200');
-  } else if (target.startsWith(val)) {
-    // daļēji pareizi
-    span.classList.add('bg-green-50');
-  } else {
-    // kļūda
-    span.classList.add('bg-red-200');
-  }
+
+    if (val.length === 0) {
+        // nothing typed
+    } else if (target === val) {
+        span.classList.add('bg-green-200'); // live preview = correct
+    } else if (target.startsWith(val)) {
+        span.classList.add('bg-green-50'); // live preview = partial
+    } else {
+        span.classList.add('bg-red-200'); // live preview = wrong
+    }
 });
 
 
+
     function handleWordSubmit() {
-      const val = typingInput.value.trim();
-      if (!val && typingInput.value === '') {
-        // user pressed space without typing — ignore but count as mistake if they try to advance?
-        return;
-      }
-      const target = words[currentIndex] || '';
-      // update total typed chars and mistakes
-      typedCharsTotal += val.length;
-      if (val === target) {
-        // correct
-        const span = textDisplay.querySelector(`span[data-index="${currentIndex}"]`);
-        if (span) {
-          span.classList.remove('bg-yellow-100','bg-red-100');
-          span.classList.add('bg-green-100');
-        }
-      } else {
-        mistakes += Math.abs(target.length - val.length) + levenshtein(val, target); // rough penalty
-        const span = textDisplay.querySelector(`span[data-index="${currentIndex}"]`);
-        if (span) {
-          span.classList.remove('bg-yellow-100');
-          span.classList.add('bg-red-100');
-        }
-      }
-      currentIndex++;
-      typingInput.value = '';
-      highlightCurrent();
+  const val = typingInput.value.trim();
+  const expected = words[currentIndex] || "";
+  const span = document.querySelector(`#textDisplay span[data-index="${currentIndex}"]`);
+  if (!span) {
+    console.error("No span for index", currentIndex);
+    return;
+  }
 
-      // If finished
-      if (currentIndex >= words.length) {
-        finishRun();
-      }
-    }
+  if (val === expected) {
+    span.classList.add("correct-word");    // final correct
+    span.classList.remove("wrong-word");
+  } else {
+    span.classList.add("wrong-word");
+    span.classList.remove("correct-word");
+  }
 
-    function finishRun() {
-      stopTimer();
-      const secs = Math.floor((Date.now() - startTime)/1000);
-      const minutes = Math.max(secs/60, 1/60);
-      const correctWords = words.length; // we consider all as attempted; could refine
-      const wpm = Math.round(correctWords / minutes);
-      const accuracy = typedCharsTotal === 0 ? 100 : Math.max(0, ((typedCharsTotal - mistakes)/typedCharsTotal) * 100);
-      // enable submit
-      submitBtn.disabled = false;
-      typingInput.disabled = true;
-      // show final
-      updateWpmAndAccuracy(secs);
-      alert(`Pabeigts! WPM: ${wpm}, Time: ${formatTime(secs)}, Accuracy: ${Math.round(accuracy)}%`);
-    }
+  currentIndex++;
+  typingInput.value = "";
+  highlightCurrent();
+
+  if (currentIndex >= words.length) {
+    finishRun();
+  }
+}
+
+function updateWpmAndAccuracy(elapsedSeconds) {
+  const minutes = Math.max(elapsedSeconds / 60, 1 / 60);
+
+  const correctWords = document.querySelectorAll("#textDisplay .correct-word").length;
+  const attemptedWords = Math.max(currentIndex, 1);
+
+  console.log("DEBUG correctWords / attemptedWords:", correctWords, attemptedWords);
+
+  const wpm = Math.round(correctWords / minutes);
+  wpmEl.textContent = isFinite(wpm) ? wpm : 0;
+
+  const accuracy = (correctWords / attemptedWords) * 100;
+  console.log("DEBUG accuracy:", accuracy);
+  accuracyEl.textContent = `${Math.round(accuracy)}%`;
+}
+
+function finishRun() {
+  stopTimer();
+  const secs = Math.floor((Date.now() - startTime) / 1000);
+  const minutes = Math.max(secs / 60, 1 / 60);
+
+  const correctWords = document.querySelectorAll("#textDisplay .correct-word").length;
+  const attemptedWords = Math.max(currentIndex, 1);
+  console.log("DEBUG finish correct / attempted:", correctWords, attemptedWords);
+
+  const accuracy = (correctWords / attemptedWords) * 100;
+  const wpm = Math.round(correctWords / minutes);
+
+  wpmEl.textContent = wpm;
+  accuracyEl.textContent = `${Math.round(accuracy)}%`;
+
+  alert(`Finished!\nWPM: ${wpm}\nTime: ${formatTime(secs)}\nAccuracy: ${Math.round(accuracy)}%`);
+
+  typingInput.disabled = true;
+  submitBtn.disabled = false;
+}
+
+
+
 
     startBtn.addEventListener('click', () => {
       // prepare text
