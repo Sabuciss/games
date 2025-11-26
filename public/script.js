@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Leaderboard filter ---
+    // --- Leaderboard filter (ja ir) ---
     const levelSelect = document.getElementById('levelSelect');
     const levels = document.querySelectorAll('.leaderboard-level');
     if (levelSelect && levels.length > 0) {
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         levels.forEach(l => l.style.display = 'block');
     }
 
-    // --- Game logic ---
+    // --- Game logic (tikai /play lapā, kur ir spēles elementi) ---
     const grid = document.querySelector('.game-grid');
     const scoreDisplay = document.getElementById('score');
     const timeDisplay = document.getElementById('time');
@@ -25,6 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const levelButtons = document.querySelectorAll('.level-selection button');
     const gameInfo = document.querySelector('.game-info');
     const leaderboardContainer = document.getElementById('leaderboardContainer');
+
+    // Ja nav spēles pamatelementu (piemēram, leaderboard lapā) – spēles loģiku neaktivizējam
+    if (!grid || !scoreDisplay || !timeDisplay || !restartBtn || !nicknameForm || !startBtn || !nicknameInput || !levelSelection || levelButtons.length === 0 || !gameInfo) {
+        return;
+    }
 
     let playerName = nicknameInput?.value || '';
     let score = 0, time = 0, flippedCards = [], matchedCards = [], timer;
@@ -88,7 +93,9 @@ document.addEventListener('DOMContentLoaded', () => {
             gameInfo.style.display = 'none';
             grid.style.display = 'none';
             restartBtn.style.display = 'none';
-            leaderboardContainer.style.display = 'block';
+            if (leaderboardContainer) {
+                leaderboardContainer.style.display = 'block';
+            }
         }
     }
 
@@ -109,7 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
         startTimer();
     }
 
-    startBtn?.addEventListener('click', () => {
+    // Pirmā starta / turpināšanas poga
+    startBtn.addEventListener('click', () => {
         const nickname = nicknameInput.value.trim();
         if (!nickname) { alert('Lūdzu ievadi nickname!'); return; }
         playerName = nickname;
@@ -117,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
         levelSelection.style.display = 'block';
     });
 
+    // Līmeņu izvēle
     levelButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             selectedLevel = btn.dataset.level;
@@ -131,17 +140,23 @@ document.addEventListener('DOMContentLoaded', () => {
             gameInfo.style.display = 'flex';
             grid.style.display = 'grid';
             restartBtn.style.display = 'inline-block';
-            leaderboardContainer.style.display = 'none';
+            if (leaderboardContainer) {
+                leaderboardContainer.style.display = 'none';
+            }
         });
     });
 
+    // Restart poga
     restartBtn.addEventListener('click', () => {
         if (!selectedLevel) return;
         setupGrid();
         restartGame();
-        leaderboardContainer.style.display = 'none';
+        if (leaderboardContainer) {
+            leaderboardContainer.style.display = 'none';
+        }
     });
 
+    // Rezultāta saglabāšana
     function saveHighScore() {
         fetch('/memory/submit-result', {
             method: 'POST',
@@ -155,17 +170,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 score: score,
                 time_seconds: time
             })
-        });
-    }
-
-    // Optional: Button or trigger to continue playing after leaderboard display
-    const continueBtn = document.getElementById('continueBtn');
-    if (continueBtn) {
-        continueBtn.addEventListener('click', () => {
-            levelSelection.style.display = 'block';
-            grid.style.display = 'none';
-            gameInfo.style.display = 'none';
-            leaderboardContainer.style.display = 'none';
         });
     }
 });

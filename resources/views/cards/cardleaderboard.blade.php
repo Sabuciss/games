@@ -1,6 +1,5 @@
 <x-layout title="'Leaderboard'">
 
-
 <div class="container">
     <h2>Leaderboard top 10 visiem līmeņiem</h2>
 
@@ -46,13 +45,14 @@
             </div>
         @endforeach
     </div>
+
+    <div style="margin-top:20px;">
+        <a href="{{ route('memory.play') }}">Turpināt atmiņas kartīšu spēli (izvēlēties līmeni)</a>
+    </div>
 </div>
 
- <div style="margin-top:20px;">
-    <a href="{{ url('/play') }}" class="btn btn-primary">Turpināt spēli / Izvēlēties līmeni</a>
-</div>
- 
 <script src="script.js"></script>
 
-
 </x-layout>
+
+
