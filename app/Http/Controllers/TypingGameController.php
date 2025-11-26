@@ -17,19 +17,27 @@ class TypingGameController extends Controller
     }
 
     public function index(Request $request)
-    {
-        $levels = [
-            'easy' => 50,
-            'medium' => 100,
-            'hard' => 150,
-            'hardcore' => 300,
-        ];
+{
+    $levels = [
+        'easy' => 50,
+        'medium' => 100,
+        'hard' => 150,
+        'hardcore' => 300,
+    ];
 
-        return view('typing_game.index', [
-            'levels' => $levels,
-            'paragraphs' => $this->texts,
-        ]);
-    }
+    // send ALL paragraphs (pool) to JS so JS can build long texts
+    $paragraphPool = $this->texts;
+
+    // shuffle them so every refresh randomizes order
+    shuffle($paragraphPool);
+
+    return view('typing_game.index', [
+        'levels' => $levels,
+        'paragraphs' => $paragraphPool, // now RANDOM ORDER
+    ]);
+}
+
+
 
     public function submit(Request $request)
     {
